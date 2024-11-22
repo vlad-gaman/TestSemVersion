@@ -15,7 +15,7 @@ variables:
   - name: outputPackDir
     ${{ if eq(lower(variables['isMaster']), 'false') }}:
       value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Stable'
-    ${{ else }}:
+    ${{ if eq(lower(variables['isMaster']), 'true') }}:
       value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Pre'
   - name: packConfiguration
     ${{ if eq(lower(variables['isMaster']), 'false') }}:
@@ -25,7 +25,7 @@ variables:
   - name: tagName
     ${{ if not(variables['isMaster']) }}:
       value: '$(GitVersion.MajorMinorPatch)'
-    ${{ else }}:
+    ${{ if variables['isMaster'] }}:
       value: '$(GitVersion.InformationalVersion).$(buildNumber)'
 
 steps:
