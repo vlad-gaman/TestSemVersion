@@ -23,7 +23,7 @@ variables:
     ${{else}}:
       value: 'Debug'
   - name: tagName
-    value: '$(GitVersion.InformationalVersion).$(Rev:r)'
+    value: '$(GitVersion.InformationalVersion).$(Rev:.r)'
 
 steps:
 - checkout: self
@@ -39,17 +39,11 @@ steps:
   displayName: Use GitVersion
   name: GitVersion
 
-- task: PowerShell@2
-  displayName: Update build number
-  inputs:
-    targetType: 'inline'
-    script: 'Write-Host "##vso[build.updatebuildnumber]$(GitVersion.AssemblySemVer)"'
-
 - script: |
       echo ${{ variables.one }} # outputs initialValue
       echo $(outputPackDir)
       echo $(packConfiguration)
-      echo $(build.updatebuildnumber)
+      echo ##vso[build.updatebuildnumber]
       echo $(GitVersion.AssemblySemVer)
       echo $(tagName)
 
