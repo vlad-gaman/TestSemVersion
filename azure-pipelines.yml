@@ -11,7 +11,7 @@ variables:
   - name: buildConfiguration
     value: 'Release'
   - name: isMaster
-    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
   - name: outputPackDir
     ${{ if eq(variables.isMaster, 'true') }}:
       value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Stable'
