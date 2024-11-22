@@ -1,0 +1,59 @@
+name: '$(rev:r)'
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - name: buildConfiguration
+    value: 'Release'
+  - name: isMaster
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+  - name: outputPackDir
+    ${{ if eq(variables.isMaster, 'true') }}:
+      value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Stable'
+    ${{else}}:
+      value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Pre'
+  - name: packConfiguration
+    ${{ if eq(variables.isMaster, 'true') }}:
+      value: $(buildConfiguration)
+    ${{else}}:
+      value: 'Debug'
+
+steps:
+- checkout: self
+  persistCredentials: true
+  fetchDepth: 0
+
+- task: gitversion/setup@0
+  displayName: Install GitVersion
+  inputs:
+    versionSpec: '5.x'
+
+- task: gitversion/execute@0
+  displayName: Use GitVersion
+  name: GitVersion
+
+- task: PowerShell@2
+  displayName: Update build number
+  inputs:
+    targetType: 'inline'
+    script: 'Write-Host "##vso[build.updatebuildnumber]$(GitVersion.AssemblySemVer)"'
+
+- script: |
+      echo ${{ variables.one }} # outputs initialValue
+      echo $(outputPackDir)
+      echo $(packConfiguration)
+      echo $(build.updatebuildnumber)
+      echo $(GitVersion.AssemblySemVer)
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish pipeline Artifacts'
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifactName: drop
+    publishLocation: 'Container'
+
+- script: |
+    git tag $(GitVersion.SemVer)
+    git push origin $(GitVersion.SemVer)
+  workingDirectory: $(Build.SourcesDirectory)
