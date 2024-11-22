@@ -17,9 +17,6 @@ branches:
     increment: None
     track-merge-target: true
     prevent-increment-of-merged-branch-version: true
-    prevent-increment:
-      of-merged-branch: true
-      when-current-commit-tagged: false
     is-source-branch-for: []
   unknown:
     tag: '{BranchName}'    
