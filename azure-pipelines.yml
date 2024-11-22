@@ -1,20 +1,13 @@
-resources:
-  pipelines:
-    - pipeline: source-pipeline
-      source: TriggeringPipeline
-
 name: '$(Rev:r)'
 
 trigger:
-  - pr
+  - pr  
   - main
 
 pool:
   vmImage: ubuntu-latest
 
 variables:
-  - name: rev
-    value: '$(resources.pipeline.source-pipeline.runName)'
   - name: buildConfiguration
     value: 'Release'
   - name: isMaster
@@ -30,7 +23,7 @@ variables:
     ${{else}}:
       value: 'Debug'
   - name: tagName
-    value: '$(GitVersion.InformationalVersion).$(rev)'
+    value: '$(GitVersion.InformationalVersion).$(Build.BuildNumber)'
 
 steps:
 - checkout: self
