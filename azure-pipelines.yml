@@ -8,6 +8,8 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
+  - name: rev
+    value: '$(resources.pipeline.buildPipeline.runName)'
   - name: buildConfiguration
     value: 'Release'
   - name: isMaster
@@ -23,7 +25,7 @@ variables:
     ${{else}}:
       value: 'Debug'
   - name: tagName
-    value: '$(GitVersion.InformationalVersion).$(Rev:.r)'
+    value: '$(GitVersion.InformationalVersion).$(rev)'
 
 steps:
 - checkout: self
@@ -43,12 +45,6 @@ steps:
       echo ${{ variables.one }} # outputs initialValue
       echo $(outputPackDir)
       echo $(packConfiguration)
-      echo variables['Rev']
-      echo Rev:r
-      echo $(Rev:r)
-      echo variables.Rev
-      echo ${{ variables.Rev }}
-      echo $[variables.Rev]
       echo $(GitVersion.AssemblySemVer)
       echo $(tagName)
 
