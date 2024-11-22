@@ -15,6 +15,7 @@ branches:
     label: PullRequest    
     regex: ^(pull|pull\-requests|pr)[/-]
     increment: None
+    label-number-pattern: '[/-](?<number>\d+)[-/]'
   unknown:
     label: '{BranchName}'    
     regex: (?<BranchName>.+)
