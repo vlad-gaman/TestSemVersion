@@ -11,10 +11,15 @@ branches:
     regex: main$
     tag: ''
     increment: None
+  pull-request:
+    mode: ContinuousDelivery
+    label: PullRequest
+    increment: None
+    regex: ^(pull|pull\-requests|pr)[/-]
   unknown:
     tag: '{BranchName}'
     increment: Patch
-    regex: (?<BranchName>((?!pull).)*)
+    regex: (?<BranchName>.+)
     source-branches:
     - main
 merge-message-formats: {}
