@@ -14,12 +14,16 @@ branches:
   pull-request:
     regex: ^(pull|pull\-requests|pr)[/-]
     tag: PullRequest
-    increment: None
+    increment: Inherit
+    track-merge-target: true
+    prevent-increment-of-merged-branch-version: true
+    is-source-branch-for: []
   unknown:
     tag: '{BranchName}'    
     regex: (?<BranchName>.+)
     increment: Patch
     source-branches:
     - main
+    is-source-branch-for: []
 merge-message-formats: {}
 update-build-number: true
