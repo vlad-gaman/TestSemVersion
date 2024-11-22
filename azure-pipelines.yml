@@ -20,18 +20,6 @@ steps:
 - script: |
       echo "##vso[task.setvariable variable=buildNumber;]$(Build.BuildNumber)"
 
-- script: |
-      echo "##vso[task.setvariable variable=outputPackDir;]$(Build.ArtifactStagingDirectory)/Nupkgs/Stable"
-      echo "##vso[task.setvariable variable=packConfiguration;]$(buildConfiguration)"
-      echo "##vso[task.setvariable variable=tagName;]$(GitVersion.InformationalVersion).$(buildNumber)"
-  condition: eq(variables['isMaster'], 'true')
-
-- script: |
-      echo "##vso[task.setvariable variable=outputPackDir;]$(Build.ArtifactStagingDirectory)/Nupkgs/Pre"
-      echo "##vso[task.setvariable variable=packConfiguration;]Debug"
-      echo "##vso[task.setvariable variable=tagName;]$(GitVersion.MajorMinorPatch)"
-  condition: eq(variables['isMaster'], 'false')
-
 - checkout: self
   persistCredentials: true
   fetchTags: false
@@ -53,6 +41,18 @@ steps:
   inputs:
     useConfigFile: true
     configFilePath: 'GitVersion.yml'
+ 
+- script: |
+      echo "##vso[task.setvariable variable=outputPackDir;]$(Build.ArtifactStagingDirectory)/Nupkgs/Stable"
+      echo "##vso[task.setvariable variable=packConfiguration;]$(buildConfiguration)"
+      echo "##vso[task.setvariable variable=tagName;]$(GitVersion.InformationalVersion).$(buildNumber)"
+  condition: eq(variables['isMaster'], 'true')
+
+- script: |
+      echo "##vso[task.setvariable variable=outputPackDir;]$(Build.ArtifactStagingDirectory)/Nupkgs/Pre"
+      echo "##vso[task.setvariable variable=packConfiguration;]Debug"
+      echo "##vso[task.setvariable variable=tagName;]$(GitVersion.MajorMinorPatch)"
+  condition: eq(variables['isMaster'], 'false')
 
 - script: |
       echo $(buildConfiguration)
