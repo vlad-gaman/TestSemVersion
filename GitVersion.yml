@@ -1,7 +1,7 @@
 mode: ContinuousDelivery
 assembly-informational-format: '{Major}.{Minor}.{Patch}+build.{CommitDate}'
 commit-date-format: yyMMdd
-commit-message-incrementing: MergeMessageOnly
+commit-message-incrementing: Enabled
 major-version-bump-message: \+semver:\s?(breaking|major)
 minor-version-bump-message: \+semver:\s?(feature|minor)
 patch-version-bump-message: \+semver:\s?(fix|patch)
@@ -22,7 +22,6 @@ branches:
     tag: '{BranchName}'    
     regex: (?<BranchName>.+)
     increment: Patch
-    commit-message-incrementing: Enabled
     source-branches:
     - main
     is-source-branch-for: []
