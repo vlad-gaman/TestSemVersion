@@ -16,7 +16,6 @@ branches:
     tag: PullRequest
     increment: None
     track-merge-target: true
-    track-merge-message: true
     prevent-increment-of-merged-branch-version: true
     prevent-increment-when-branch-merged: true
     prevent-increment-when-current-commit-tagged: true
