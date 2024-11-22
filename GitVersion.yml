@@ -1,7 +1,5 @@
 mode: ContinuousDelivery
-assembly-versioning-format: '{Major}.{Minor}.{Patch}+build.{CommitDate}.{PreReleaseNumber ?? 0}{PreReleaseTagWithDash}.{Sha}'
-assembly-informational-format: '{Major}.{Minor}.{Patch}-build.{CommitDate}.{PreReleaseNumber ?? 0}{PreReleaseTagWithDash}.{Sha}'
-assembly-file-versioning-format: '{Major}.{Minor}.{Patch}.0'
+assembly-informational-format: '{Major}.{Minor}.{Patch}+build.{CommitDate}'
 commit-date-format: yyMMdd
 commit-message-incrementing: MergeMessageOnly
 major-version-bump-message: \+semver:\s?(breaking|major)
@@ -18,7 +16,7 @@ branches:
     tag: PullRequest
     increment: None
   unknown:
-    tag: Unstable
+    tag: '{BranchName}'
     increment: Patch
     regex: (?<BranchName>.+)
     source-branches:
