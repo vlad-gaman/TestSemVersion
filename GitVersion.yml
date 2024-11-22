@@ -8,17 +8,17 @@ patch-version-bump-message: \+semver:\s?(fix|patch)
 no-bump-message: \+semver:\s?(none|skip)
 branches:
   main:
-    regex: main$
     label: ''
+    regex: main$
     increment: None
   pull-request:
-    label: PullRequest
-    increment: None
+    label: PullRequest    
     regex: ^(pull|pull\-requests|pr)[/-]
+    increment: None
   unknown:
-    label: '{BranchName}'
-    increment: Patch
+    label: '{BranchName}'    
     regex: (?<BranchName>.+)
+    increment: Patch
     source-branches:
     - main
 merge-message-formats: {}
