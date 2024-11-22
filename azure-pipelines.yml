@@ -43,7 +43,12 @@ steps:
       echo ${{ variables.one }} # outputs initialValue
       echo $(outputPackDir)
       echo $(packConfiguration)
-      echo ##vso[build.updatebuildnumber]
+      echo variables['Rev']
+      echo Rev:r
+      echo $(Rev:r)
+      echo variables.Rev
+      echo ${{ variables.Rev }}
+      echo $[variables.Rev]
       echo $(GitVersion.AssemblySemVer)
       echo $(tagName)
 
