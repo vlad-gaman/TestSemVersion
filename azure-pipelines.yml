@@ -41,6 +41,9 @@ steps:
     versionSpec: '6.x'
     preferLatestVersion: true
 
+- script: |
+      ls /opt/hostedtoolcache/GitVersion.Tool/6.0.5
+
 - task: gitversion/execute@3.0.3
   displayName: Use GitVersion
   name: GitVersion
