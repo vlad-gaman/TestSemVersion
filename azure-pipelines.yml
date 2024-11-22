@@ -8,8 +8,10 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
+  - name: buildId
+    value: '$(Build.BuildId)'
   - name: buildNumber
-    value: '${{ Build.BuildNumber }}'
+    value: '${{ variables['Build.BuildNumber'] }}'
   - name: buildConfiguration
     value: 'Release'
   - name: isMaster
@@ -25,7 +27,7 @@ variables:
     ${{else}}:
       value: 'Debug'
   - name: tagName
-    value: '$(GitVersion.InformationalVersion).$(buildNumber)'
+    value: '$(GitVersion.InformationalVersion)+$(buildNumber)+$(buildId)'
 
 steps:
 - checkout: self
