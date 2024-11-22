@@ -13,13 +13,13 @@ variables:
   - name: isMaster
     value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
   - name: outputPackDir
-    ${{ if eq(lower(variables['isMaster']), false) }}:
+    $[ if eq(lower(variables['isMaster']), false) ]:
       value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Stable'
-    ${{ elseif eq(lower(variables['isMaster']), 'True') }}:
+    $[ elseif eq(lower(variables['isMaster']), 'True') ]:
       value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Pre'
-    ${{ elseif eq(lower(variables['isMaster']), '') }}:
+    $[ elseif eq(lower(variables['isMaster']), '') ]:
       value: 'Aoleu'
-    ${{ elseif eq(lower(variables['isMaster']), 'false') }}:
+    $[ elseif eq(lower(variables['isMaster']), 'false') ]:
       value: 'Pe Bune'
   - name: packConfiguration
     ${{ if not(variables['isMaster']) }}:
@@ -38,6 +38,7 @@ steps:
 # It also need to be the first thing to run
 - script: |
       echo "##vso[task.setvariable variable=buildNumber;]$(Build.BuildNumber)"
+      if []
 
 - checkout: self
   persistCredentials: true
