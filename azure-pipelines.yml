@@ -9,7 +9,7 @@ pool:
 
 variables:
   - name: buildNumber
-    value: '$(Build.BuildNumber)'
+    value: '${{ Build.BuildNumber }}'
   - name: buildConfiguration
     value: 'Release'
   - name: isMaster
