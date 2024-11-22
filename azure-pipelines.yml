@@ -13,19 +13,19 @@ variables:
   - name: isMaster
     value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
   - name: outputPackDir
-    ${{ if eq(lower(variables['isMaster']), 'false') }}:
+    ${{ if not(variables['isMaster']) }}:
       value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Stable'
-    ${{ if eq(lower(variables['isMaster']), 'true') }}:
+    ${{ elseif variables['isMaster'] }}:
       value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Pre'
   - name: packConfiguration
-    ${{ if eq(lower(variables['isMaster']), 'false') }}:
+    ${{ if not(variables['isMaster']) }}:
       value: $(buildConfiguration)
-    ${{ else }}:
+    ${{ elseif variables['isMaster'] }}:
       value: 'Debug'
   - name: tagName
     ${{ if not(variables['isMaster']) }}:
       value: '$(GitVersion.MajorMinorPatch)'
-    ${{ if variables['isMaster'] }}:
+    ${{ elseif variables['isMaster'] }}:
       value: '$(GitVersion.InformationalVersion).$(buildNumber)'
 
 steps:
