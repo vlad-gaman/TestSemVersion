@@ -43,6 +43,7 @@ steps:
 
 - task: gitversion/execute@3.0.3
   displayName: Use GitVersion
+  name: GitVersion
   inputs:
     useConfigFile: true
     configFilePath: 'GitVersion.yml'
