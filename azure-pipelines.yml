@@ -1,5 +1,9 @@
 name: '$(rev:r)'
 
+trigger:
+  - pr
+  - main
+
 pool:
   vmImage: ubuntu-latest
 
@@ -54,6 +58,6 @@ steps:
     publishLocation: 'Container'
 
 - script: |
-    git tag $(GitVersion.SemVer)
-    git push origin $(GitVersion.SemVer)
+    git tag '$(GitVersion.InformationalVersion).$(rev:r)'
+    git push origin '$(GitVersion.InformationalVersion).$(rev:r)'
   workingDirectory: $(Build.SourcesDirectory)
