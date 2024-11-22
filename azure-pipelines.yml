@@ -8,17 +8,25 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  buildConfiguration: 'Release'
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
-  outputPackDir: '$(Build.ArtifactStagingDirectory)/Nupkgs/Pre'
-  ${{ if eq(variables.isMaster, 'true') }}:
-  outputPackDir: '$(Build.ArtifactStagingDirectory)/Nupkgs/Stable'
-  packConfiguration: 'Debug'
-  ${{ if eq(variables.isMaster, 'true') }}:
-  packConfiguration: $(buildConfiguration)
-  tagName: '$(GitVersion.InformationalVersion).$(buildNumber)'
-  ${{ if eq(variables.isMaster, 'false') }}:
-  tagName: '$(GitVersion.SemVer)'
+  - name: buildConfiguration
+    value: 'Release'
+  - name: isMaster
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+  - name: outputPackDir
+    ${{ if eq(variables.isMaster, 'false') }}:
+      value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Stable'
+    ${{ else }}:
+      value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Pre'
+  - name: packConfiguration
+    ${{ if eq(variables.isMaster, true) }}:
+      value: $(buildConfiguration)
+    ${{ else }}:
+      value: 'Debug'
+  - name: tagName
+    ${{ if eq(variables['isMaster'], False) }}:
+      value: '$(GitVersion.SemVer)'
+    ${{ else }}:
+      value: '$(GitVersion.InformationalVersion).$(buildNumber)'
 
 steps:
 # This is a special way to retrieve the pipeline $(Rev:r) and store it in a variable
