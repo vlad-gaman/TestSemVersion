@@ -28,6 +28,14 @@ variables:
     value: '$(GitVersion.InformationalVersion)+$(buildNumber)+$(buildId)'
 
 steps:
+
+- script: |
+      echo ${{ variables.one }} # outputs initialValue
+      echo $(outputPackDir)
+      echo $(packConfiguration)
+      echo $(tagName)
+
+
 - checkout: self
   persistCredentials: true
   fetchDepth: 0
