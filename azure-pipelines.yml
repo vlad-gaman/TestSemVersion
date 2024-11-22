@@ -12,25 +12,6 @@ variables:
     value: 'Release'
   - name: isMaster
     value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
-  - name: outputPackDir
-    $[ if eq(lower(variables['isMaster']), false) ]:
-      value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Stable'
-    $[ elseif eq(lower(variables['isMaster']), 'True') ]:
-      value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Pre'
-    $[ elseif eq(lower(variables['isMaster']), '') ]:
-      value: 'Aoleu'
-    $[ elseif eq(lower(variables['isMaster']), 'false') ]:
-      value: 'Pe Bune'
-  - name: packConfiguration
-    ${{ if not(variables['isMaster']) }}:
-      value: $(buildConfiguration)
-    ${{ elseif variables['isMaster'] }}:
-      value: 'Debug'
-  - name: tagName
-    ${{ if not(variables['isMaster']) }}:
-      value: '$(GitVersion.MajorMinorPatch)'
-    ${{ elseif variables['isMaster'] }}:
-      value: '$(GitVersion.InformationalVersion).$(buildNumber)'
 
 steps:
 # This is a special way to retrieve the pipeline $(Rev:r) and store it in a variable
@@ -38,7 +19,18 @@ steps:
 # It also need to be the first thing to run
 - script: |
       echo "##vso[task.setvariable variable=buildNumber;]$(Build.BuildNumber)"
-      if []
+
+- script: |
+      echo "##vso[task.setvariable variable=outputPackDir;]$(Build.ArtifactStagingDirectory)/Nupkgs/Stable"
+      echo "##vso[task.setvariable variable=packConfiguration;]$(buildConfiguration)"
+      echo "##vso[task.setvariable variable=tagName;]$(GitVersion.InformationalVersion).$(buildNumber)"
+  condition: eq(variables['isMaster'], 'true')
+
+- script: |
+      echo "##vso[task.setvariable variable=outputPackDir;]$(Build.ArtifactStagingDirectory)/Nupkgs/Pre"
+      echo "##vso[task.setvariable variable=packConfiguration;]Debug"
+      echo "##vso[task.setvariable variable=tagName;]$(GitVersion.MajorMinorPatch)"
+  condition: eq(variables['isMaster'], 'false')
 
 - checkout: self
   persistCredentials: true
