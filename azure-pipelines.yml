@@ -4,12 +4,17 @@ trigger:
   - pr
   - main
 
+resources:
+  pipelines:
+  - pipeline: source-pipeline
+    source: TriggeringPipeline
+
 pool:
   vmImage: ubuntu-latest
 
 variables:
   - name: rev
-    value: '$(resources.pipeline.buildPipeline.runName)'
+    value: '$(resources.pipeline.source-pipeline.runName)'
   - name: buildConfiguration
     value: 'Release'
   - name: isMaster
