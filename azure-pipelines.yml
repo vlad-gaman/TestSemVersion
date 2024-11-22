@@ -1,7 +1,7 @@
 name: '$(Rev:r)'
 
 trigger:
-  - pr  
+  - pr
   - main
 
 pool:
@@ -23,7 +23,10 @@ variables:
     ${{else}}:
       value: 'Debug'
   - name: tagName
-    value: '$(GitVersion.InformationalVersion).$(buildNumber)'
+    ${{ if eq(variables.isMaster, 'true') }}:
+      value: '$(GitVersion.SemVer)'
+    ${{else}}:
+      value: '$(GitVersion.InformationalVersion).$(buildNumber)'
 
 steps:
 # This is a special way to retrieve the pipeline $(Rev:r) and store it in a variable
@@ -69,4 +72,5 @@ steps:
 - script: |
     git tag $(tagName)
     git push origin $(tagName)
+  condition: ne(variables['Build.Reason'], 'PullRequest')
   workingDirectory: $(Build.SourcesDirectory)
