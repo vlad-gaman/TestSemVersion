@@ -17,7 +17,6 @@ branches:
     increment: None
     track-merge-target: true
     prevent-increment-of-merged-branch-version: true
-    prevent-increment-when-current-commit-tagged: true
   unknown:
     tag: '{BranchName}'    
     regex: (?<BranchName>.+)
