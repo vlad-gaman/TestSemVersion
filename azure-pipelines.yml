@@ -1,4 +1,4 @@
-name: '$(rev:r)'
+name: '$(Rev:r)'
 
 trigger:
   - pr
@@ -22,6 +22,8 @@ variables:
       value: $(buildConfiguration)
     ${{else}}:
       value: 'Debug'
+  - name: tagName
+    value: '$(GitVersion.InformationalVersion).$(Rev:r)'
 
 steps:
 - checkout: self
@@ -49,6 +51,7 @@ steps:
       echo $(packConfiguration)
       echo $(build.updatebuildnumber)
       echo $(GitVersion.AssemblySemVer)
+      echo $(tagName)
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish pipeline Artifacts'
@@ -58,6 +61,6 @@ steps:
     publishLocation: 'Container'
 
 - script: |
-    git tag '$(GitVersion.InformationalVersion).$(rev:r)'
-    git push origin '$(GitVersion.InformationalVersion).$(rev:r)'
+    git tag $(tagName)
+    git push origin $(tagName)
   workingDirectory: $(Build.SourcesDirectory)
