@@ -1,5 +1,3 @@
-name: '$(Rev:r)'
-
 trigger:
   - pr  
   - main
@@ -9,9 +7,9 @@ pool:
 
 variables:
   - name: buildId
-    value: '$(Build.BuildId)'
+    value: $(Build.BuildId)
   - name: buildNumber
-    value: '${{ variables['Build.BuildNumber'] }}'
+    value: $(Build.BuildNumber)
   - name: buildConfiguration
     value: 'Release'
   - name: isMaster
