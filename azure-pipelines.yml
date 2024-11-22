@@ -37,7 +37,7 @@ steps:
   fetchTags: false
 
 - script: |
-    git checkout $(Build.SourceBranch)
+    git checkout $(System.PullRequest.SourceBranch)
   condition: eq(variables.isMaster, 'false')
   displayName: Checkout source branch
 
