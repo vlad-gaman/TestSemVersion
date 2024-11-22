@@ -11,17 +11,23 @@ branches:
     tag: ''
     regex: main$
     increment: None
+    is-main-branch: true
   pull-request:
     regex: ^(pull|pull\-requests|pr)[/-]
     tag: PullRequest
     increment: None
     track-merge-target: true
     prevent-increment-of-merged-branch-version: true
+    prevent-increment:
+      of-merged-branch: true
+      when-current-commit-tagged: false
+    is-source-branch-for: []
   unknown:
     tag: '{BranchName}'    
     regex: (?<BranchName>.+)
     increment: Patch
     source-branches:
     - main
+    is-source-branch-for: []
 merge-message-formats: {}
 update-build-number: true
