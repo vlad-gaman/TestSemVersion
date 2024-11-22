@@ -13,10 +13,14 @@ variables:
   - name: isMaster
     value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
   - name: outputPackDir
-    ${{ if eq(variables['isMaster'], 'False') }}:
+    ${{ if eq(variables['isMaster'], False) }}:
       value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Stable'
     ${{ elseif eq(variables['isMaster'], 'True') }}:
       value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Pre'
+    ${{ elseif eq(variables['isMaster'], '') }}:
+      value: 'Aoleu'
+    ${{ elseif eq(variables['isMaster'], 'False') }}:
+      value: 'Pe Bune'
   - name: packConfiguration
     ${{ if not(variables['isMaster']) }}:
       value: $(buildConfiguration)
