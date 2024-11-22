@@ -1,4 +1,8 @@
-name: '$(rev:r)'
+name: '$(Rev:r)'
+
+trigger:
+  - pr  
+  - main
 
 pool:
   vmImage: ubuntu-latest
@@ -18,33 +22,35 @@ variables:
       value: $(buildConfiguration)
     ${{else}}:
       value: 'Debug'
+  - name: tagName
+    value: '$(GitVersion.InformationalVersion).$(buildNumber)'
 
 steps:
+# This is a special way to retrieve the pipeline $(Rev:r) and store it in a variable
+# It is also linked to the first line of code "name: '$(Rev:r)'"
+# It also need to be the first thing to run
+- script: |
+      echo "##vso[task.setvariable variable=buildNumber;]$(Build.BuildNumber)"
+
 - checkout: self
   persistCredentials: true
-  fetchDepth: 0
 
-- task: gitversion/setup@0
+- task: gitversion/setup@3.0.3
   displayName: Install GitVersion
   inputs:
     versionSpec: '5.x'
 
-- task: gitversion/execute@0
+- task: gitversion/execute@3.0.3
   displayName: Use GitVersion
   name: GitVersion
-
-- task: PowerShell@2
-  displayName: Update build number
   inputs:
-    targetType: 'inline'
-    script: 'Write-Host "##vso[build.updatebuildnumber]$(GitVersion.AssemblySemVer)"'
+    useConfigFile: true
+    configFilePath: 'GitVersion.yml'
 
 - script: |
-      echo ${{ variables.one }} # outputs initialValue
       echo $(outputPackDir)
       echo $(packConfiguration)
-      echo $(build.updatebuildnumber)
-      echo $(GitVersion.AssemblySemVer)
+      echo $(tagName)
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish pipeline Artifacts'
@@ -54,6 +60,6 @@ steps:
     publishLocation: 'Container'
 
 - script: |
-    git tag $(GitVersion.SemVer)
-    git push origin $(GitVersion.SemVer)
+    git tag $(tagName)
+    git push origin $(tagName)
   workingDirectory: $(Build.SourcesDirectory)
