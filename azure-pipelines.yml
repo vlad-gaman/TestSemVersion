@@ -23,7 +23,7 @@ variables:
     ${{else}}:
       value: 'Debug'
   - name: tagName
-    ${{ if eq(variables.isMaster, 'true') }}:
+    ${{ if eq(variables.isMaster, 'false') }}:
       value: '$(GitVersion.SemVer)'
     ${{else}}:
       value: '$(GitVersion.InformationalVersion).$(buildNumber)'
