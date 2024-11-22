@@ -37,8 +37,8 @@ steps:
   fetchTags: false
 
 - script: |
-    git checkout $(Build.SourceBranch)
-  condition: eq(variables.isMaster, 'false')
+    git checkout $(System.PullRequest.SourceBranch)
+  condition: eq(variables['Build.Reason'], 'PullRequest')
   displayName: Checkout source branch
 
 - task: gitversion/setup@3.0.3
