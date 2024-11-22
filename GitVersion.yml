@@ -14,9 +14,8 @@ branches:
   unknown:
     tag: '{BranchName}'
     increment: Patch
-    regex: (?<BranchName>.+)
+    regex: (?<BranchName>((?!pull).)*)
     source-branches:
     - main
-    - release
 merge-message-formats: {}
 update-build-number: true
