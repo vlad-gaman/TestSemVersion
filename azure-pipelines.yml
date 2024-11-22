@@ -11,7 +11,7 @@ variables:
   - name: buildConfiguration
     value: 'Release'
   - name: isMaster
-    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
   - name: outputPackDir
     ${{ if eq(variables.isMaster, 'true') }}:
       value: '$(Build.ArtifactStagingDirectory)/Nupkgs/Stable'
@@ -34,6 +34,13 @@ steps:
 
 - checkout: self
   persistCredentials: true
+  fetchTags: false
+
+- script: |
+    git checkout $(System.PullRequest.SourceBranch)
+    git switch $(System.PullRequest.SourceBranch)
+  condition: eq(variables['Build.Reason'], 'PullRequest')
+  displayName: Checkout source branch
 
 - task: gitversion/setup@3.0.3
   displayName: Install GitVersion
