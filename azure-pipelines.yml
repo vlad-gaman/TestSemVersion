@@ -7,8 +7,7 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-resources:
-  pipelines:
+pipelines:
   - pipeline: source-pipeline
     source: TriggeringPipeline
 
