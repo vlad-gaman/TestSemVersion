@@ -8,6 +8,8 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
+  - name: buildNumber
+    value: '$(Build.BuildNumber)'
   - name: buildConfiguration
     value: 'Release'
   - name: isMaster
@@ -23,7 +25,7 @@ variables:
     ${{else}}:
       value: 'Debug'
   - name: tagName
-    value: '$(GitVersion.InformationalVersion).$(Build.BuildNumber)'
+    value: '$(GitVersion.InformationalVersion).$(buildNumber)'
 
 steps:
 - checkout: self
@@ -43,7 +45,6 @@ steps:
       echo ${{ variables.one }} # outputs initialValue
       echo $(outputPackDir)
       echo $(packConfiguration)
-      echo $(GitVersion.AssemblySemVer)
       echo $(tagName)
 
 - task: PublishPipelineArtifact@1
