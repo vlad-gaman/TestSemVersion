@@ -1,3 +1,5 @@
+name: '$(Rev:r)'
+
 trigger:
   - pr  
   - main
@@ -6,8 +8,6 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - name: buildId
-    value: $(Build.BuildId)
   - name: buildNumber
     value: $(Build.BuildNumber)
   - name: buildConfiguration
@@ -25,15 +25,12 @@ variables:
     ${{else}}:
       value: 'Debug'
   - name: tagName
-    value: '$(GitVersion.InformationalVersion)+$(buildNumber)+$(buildId)'
+    value: '$(GitVersion.InformationalVersion)+$(buildNumber)'
 
 steps:
 
 - script: |
-      echo ${{ variables.one }} # outputs initialValue
-      echo $(outputPackDir)
-      echo $(packConfiguration)
-      echo $(tagName)
+      echo $(buildNumber)
 
 
 - checkout: self
