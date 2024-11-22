@@ -61,6 +61,8 @@ steps:
       echo $(outputPackDir)
       echo $(packConfiguration)
       echo $(tagName)
+      echo ${{ variables['Build.SourceBranch'] }}
+      echo $(Build.SourceBranch)
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish pipeline Artifacts'
