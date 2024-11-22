@@ -14,7 +14,7 @@ branches:
   pull-request:
     regex: ^(pull|pull\-requests|pr)[/-]
     tag: PullRequest
-    increment: None
+    increment: Inherit
     track-merge-target: true
     prevent-increment-of-merged-branch-version: true
     is-source-branch-for: []
