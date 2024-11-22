@@ -24,7 +24,7 @@ variables:
       value: 'Debug'
   - name: tagName
     ${{ if not(variables['isMaster']) }}:
-      value: '$(GitVersion.SemVer)'
+      value: '$(GitVersion.MajorMinorPatch)'
     ${{ else }}:
       value: '$(GitVersion.InformationalVersion).$(buildNumber)'
 
