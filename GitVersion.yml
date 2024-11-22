@@ -9,7 +9,7 @@ no-bump-message: \+semver:\s?(none|skip)
 branches:
   main:
     regex: main$
-    tag: ''
+    label: ''
     increment: None
   pull-request:
     mode: ContinuousDelivery
@@ -17,7 +17,7 @@ branches:
     increment: None
     regex: ^(pull|pull\-requests|pr)[/-]
   unknown:
-    tag: '{BranchName}'
+    label: '{BranchName}'
     increment: Patch
     regex: (?<BranchName>.+)
     source-branches:
