@@ -4,13 +4,13 @@ trigger:
   - pr
   - main
 
+pool:
+  vmImage: ubuntu-latest
+
 resources:
   pipelines:
   - pipeline: source-pipeline
     source: TriggeringPipeline
-
-pool:
-  vmImage: ubuntu-latest
 
 variables:
   - name: rev
