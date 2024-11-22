@@ -11,10 +11,6 @@ branches:
     regex: main$
     tag: ''
     increment: None
-  pull-request:
-    regex: ^(pull|pull\-requests|pr)[/-]
-    tag: PullRequest
-    increment: None
   unknown:
     tag: '{BranchName}'
     increment: Patch
